@@ -68,6 +68,8 @@ class WallFollowerNode(Node):
             msg.pose.pose.orientation.y,
             msg.pose.pose.orientation.z,
             msg.pose.pose.orientation.w,
+
+            
         )
 
         # converting to euler
