@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+
+
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <xacro:macro name="lidar" params="parent_link">
+
+        <!--VARIABLES-->
+        <xacro:property name="lidar_mass" value="0.19842109046142830664"/>
+        <xacro:property name="lidar_sensor_origin" value="0.0298"/>
+
+        <joint name="lidar_base_1" type="fixed">
+            <origin xyz="-0.050052038200428278225 -0.0049479617995717289913 0" rpy="3.141592653589793116 -1.232595164407830946e-32 -1.570796326794896558" />
+            <parent link="${parent_link}"/>
+            <child link="lidar"/>
+            <axis xyz="0 0 1">
+                <limit effort="1" velocity="20" />
+            </axis>
+            <joint_properties friction="0.0"/>
+        </joint>
+    
+        <link name="lidar">
+            <visual name="lidar_visual">
+                <origin xyz="-0.027750000000000038525 -0.020000000000000007355 -0.024600000000000010747" rpy="-1.570796326794896558 -0 -1.7804189523299639519e-65" />
+                <geometry>
+                    <mesh filename="package://turtle_bot_desc/turtle_bot/lidar.stl"/>
+                </geometry>
+                <material name="black_lidar"/>
+            </visual>
+            <collision name="lidar_collision">
+                <origin xyz="-0.027750000000000038525 -0.020000000000000007355 -0.024600000000000010747" rpy="-1.570796326794896558 -0 -1.7804189523299639519e-65" />
+            <geometry>
+                <mesh filename="package://turtle_bot_desc/turtle_bot/lidar.stl"/>
+            </geometry>
+            </collision>
+            <xacro:lidar_inertial prefix="lidar" mass="${lidar_mass}">
+                <origin xyz="-0.03523346988333641433 -0.019908073888912462823 -0.03526812773284024316" rpy="0 0 0"/>
+                <inertia ixx="9.1685841634372709547e-05" ixy="1.1957791832927591295e-07"  ixz="-2.3594440914703956132e-05" iyy="0.0001432424360670294587" iyz="-4.6096994025815581498e-07" izz="0.00016373727901481947605" />
+            </xacro:lidar_inertial>
+        </link>
+
+        <gazebo reference="lidar">
+            <sensor name="rplidar_a1" type="gpu_lidar">
+                <pose>0 0 ${lidar_sensor_origin} 0 0 0</pose>
+                <always_on>true</always_on>
+                <visualize>true</visualize>
+                <update_rate>10</update_rate>
+                <lidar>
+                    <scan>
+                        <horizontal>
+                            <samples>5000</samples>
+                            <resolution>1</resolution>
+                            <min_angle>-3.14</min_angle>
+                            <max_angle>3.14</max_angle>
+                        </horizontal>
+                    </scan>
+                    <range>
+                        <min>0.05</min>
+                        <max>6</max>
+                        <resolution>0.015</resolution>
+                    </range>
+                    <noise>
+                        <type>gaussian</type>
+                        <mean>0.0</mean>
+                        <stddev>0.01</stddev>
+                    </noise>
+                </lidar>
+                <topic>scan</topic>
+                <gz_frame_id>lidar</gz_frame_id>
+            </sensor>
+        </gazebo>
+    </xacro:macro>
+
+</robot>

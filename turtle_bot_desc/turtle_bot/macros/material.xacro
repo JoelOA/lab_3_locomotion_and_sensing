@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+
+    <material name="blue_chassis">
+        <color rgba = "0.14117647058823529216 0.43137254901960786491 0.7254901960784313486 1.0"/>
+    </material>
+
+    <material name="silver_standoff">
+        <color rgba = "0.91764705882352937127 0.91764705882352937127 0.91764705882352937127 1.0"/>
+    </material>
+
+    <material name="grey_wheel">
+        <color rgba = "0.070588235294117646079 0.08627450980392156743 0.098039215686274508443 1.0"/>
+    </material>
+
+    <material name = "black_lidar">
+        <color rgba =  "0.62745098039215685404 0.6745098039215686736 0.67843137254901964006 1.0"/>
+    </material>
+
+</robot>

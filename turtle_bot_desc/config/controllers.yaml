@@ -1,0 +1,29 @@
+controller_manager:
+  ros__parameters:
+    update_rate: 30
+
+    diff_controller:
+      type: diff_drive_controller/DiffDriveController
+
+    joint_broad:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+diff_controller:
+  ros__parameters:
+    publish_rate: 50.0
+
+    odom_frame_id: odom
+    enable_odom_tf: true
+
+    # This should match the xacro file.
+    base_frame_id: base_layer
+
+    # This should match the joint names in the xacro file.
+    left_wheel_names: ["wheel_joint_1"]
+    right_wheel_names: ["wheel_joint_2"]
+
+    # This should match the wheel separation in the xacro file.
+    wheel_separation: 0.17147
+
+    # This should match the wheel radius in the xacro file.
+    wheel_radius: 0.0275

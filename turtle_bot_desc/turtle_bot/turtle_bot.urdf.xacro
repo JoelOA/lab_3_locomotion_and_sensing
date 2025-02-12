@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="turtle_bot">
+    <!--CONSTANTS-->
+    <xacro:property name="TURTLE_BOT_PACKAGE_NAME" value="turtle_bot_desc"/>
+
+    <!--IMPORTS-->
+    <xacro:include filename="$(find ${TURTLE_BOT_PACKAGE_NAME})/turtle_bot/turtle_bot_core.xacro"/>
+    <xacro:include filename="$(find ${TURTLE_BOT_PACKAGE_NAME})/turtle_bot/sensors/lidar.xacro"/>
+    <xacro:include filename="$(find ${TURTLE_BOT_PACKAGE_NAME})/turtle_bot/control/gazebo_control.xacro"/>
+    
+    <!--SENSORS-->
+    <!--LiDAR Sensors-->
+    <xacro:lidar parent_link="top_layer"/>
+    
+</robot>

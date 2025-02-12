@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <xacro:macro name="standoff" params="base_number standoff_mass *origin *parent">
+        <joint name="base_joint_${base_number}" type="fixed">
+            <xacro:insert_block name="origin"/>
+            <xacro:insert_block name="parent"/>
+            <child link="Standoff_${base_number}"/>
+            <axis xyz="0 0 1">
+                <limit effort="1" velocity="20"/>
+            </axis>
+        </joint>
+
+        <link name="Standoff_${base_number}">
+            <visual>
+                <origin xyz="0 0 0" rpy="3.141592653589793116 -0 0" />
+                <geometry>
+                    <mesh filename="package://turtle_bot_desc/turtle_bot/standoff.stl"/>
+                </geometry>
+                <material name="silver_standoff"/>
+            </visual>
+            <collision name="standoff_${base_number}_wheel_collision">
+                <origin xyz="0 0 0" rpy="3.141592653589793116 -0 0" />
+                <geometry>
+                    <mesh filename="package://turtle_bot_desc/turtle_bot/standoff.stl"/>
+                </geometry>
+            </collision>
+            <xacro:standoff_inertial  mass="${standoff_mass}">
+                <origin xyz="-1.2885779678748708114e-19 -9.2374474921235031905e-20 -0.053411456531411952153" rpy="0 0 0"/>
+                <inertia ixx="5.6380166401882059212e-06" ixy="0"  ixz="0" iyy="5.6380166401882059212e-06" iyz="0" izz="6.7280238291201044044e-09"/>
+            </xacro:standoff_inertial>
+        </link>
+
+        <!--Gazebo Material-->
+        <gazebo reference="Standoff_${base_number}">
+            <material>Gazebo/Gray</material>
+
+            <mu1>0.2</mu1> <!--Low friction since its a passive part-->
+            <mu2>0.2</mu2> <!--Same as above-->
+
+            <kp>100000.0</kp>
+            <kd>0.5</kd>
+
+            <minDepth>0.001</minDepth>
+        </gazebo>
+    </xacro:macro>
+</robot>

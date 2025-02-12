@@ -1,0 +1,166 @@
+<?xml version="1.0"?>
+
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <!--CONSTANTS-->
+    <xacro:property name="PI" value="3.14159"/>
+
+    <!--IMPORTS-->
+    <xacro:include filename="$(find ${TURTLE_BOT_PACKAGE_NAME})/turtle_bot/macros/material.xacro"/>
+    <xacro:include filename="$(find ${TURTLE_BOT_PACKAGE_NAME})/turtle_bot/macros/wheels.xacro"/>
+    <xacro:include filename="$(find ${TURTLE_BOT_PACKAGE_NAME})/turtle_bot/macros/inertial.xacro"/>
+    <xacro:include filename="$(find ${TURTLE_BOT_PACKAGE_NAME})/turtle_bot/macros/standoff.xacro"/>
+
+    <!--VARIABLES-->
+    <xacro:property name="wheel_mass" value="0.062953359098010322481"/>
+    <xacro:property name="standoff_mass" value="0.0059281210142902648896"/>
+    <xacro:property name="lidar_mass" value="0.19842109046142830664"/>
+
+    <xacro:property name="wheel_torque" value="20"/>
+    <xacro:property name="caster_wheel_radius" value="0.017"/>
+
+    <!--BASE LAYER-->
+    <link name="base_layer">
+        <visual>
+            <origin xyz="-0.0054085951405280288662 0.0063858766431100638661 -0.010733145442279119069" rpy="0 -0 0" />
+            <geometry>
+                <mesh filename="package://turtle_bot_desc/turtle_bot/base_layer.stl"/>
+            </geometry>
+            <material name="blue_chassis"/>
+        </visual>
+        <collision>
+            <origin xyz="-0.0054085951405280288662 0.0063858766431100638661 -0.010733145442279119069" rpy="0 -0 0" />
+            <geometry>
+                <mesh filename="package://turtle_bot_desc/turtle_bot/base_layer.stl"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <origin xyz="-0.005408595140528033203 0.0063858766431100647334 -0.013233145442279119555" rpy="0 0 0"/>
+            <mass value="0.076708445791032489613" />
+            <inertia ixx="0.00011517387353310796605" ixy="0"  ixz="0" iyy="8.9133149707990215016e-05" iyz="0" izz="0.00020398868575373328422" />
+        </inertial>
+    </link>
+
+    <!--GAZEBO MATERIAL-->
+    <gazebo reference="base_layer">
+        <material>Gazebo/Blue</material>
+    </gazebo>
+
+    <!--MID LAYER-->
+    <link name="mid_layer">
+        <visual>
+            <origin xyz="-0.030052038200428277809 0.030052038200428274339 -0.050000000000000002776" rpy="0 -0 0" />
+            <geometry>
+                <mesh filename="package://turtle_bot_desc/turtle_bot/mid_layer.stl"/>
+            </geometry>
+            <material name="blue_chassis"/>
+        </visual>
+        <collision>
+             <origin xyz="-0.030052038200428277809 0.030052038200428274339 -0.050000000000000002776" rpy="0 -0 0" />
+            <geometry>
+                <mesh filename="package://turtle_bot_desc/turtle_bot/mid_layer.stl"/>
+            </geometry>
+            </collision>
+        <inertial>
+            <origin xyz="-0.030052038200428277809 0.030052038200428277809 -0.0024999999999999952816" rpy="0 0 0"/>
+            <mass value="0.083011182331746063978" />
+            <inertia ixx="0.00011697427137894075811" ixy="0"  ixz="0" iyy="0.00011697427137894071745" iyz="0" izz="0.00023360266283149923186" />
+        </inertial>
+    </link>
+
+     <!--GAZEBO MATERIAL-->
+    <gazebo reference="mid_layer">
+        <material>Gazebo/Blue</material>
+    </gazebo>
+
+    <!--TOP_LAYER-->
+    <link name="top_layer">
+        <visual>
+            <origin xyz="-0.030052038200428277809 0.030052038200428274339 -0.10000000000000000555" rpy="0 -0 0" />
+            <geometry>
+                <mesh filename="package://turtle_bot_desc/turtle_bot/top_layer.stl"/>
+            </geometry>
+            <material name="blue_chassis"/>
+        </visual>
+        <collision>
+            <origin xyz="-0.030052038200428277809 0.030052038200428274339 -0.10000000000000000555" rpy="0 -0 0" />
+            <geometry>
+                <mesh filename="package://turtle_bot_desc/turtle_bot/top_layer.stl"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <origin xyz="-0.030052036065168211826 0.030052035531353181452 -0.0025000000000000022204" rpy="0 0 0"/>
+            <mass value="0.082705577310317246464" />
+            <inertia ixx="0.0001165988706191439545" ixy="-6.1809275542363220998e-12"  ixz="0" iyy="0.00011679231738675145886" iyz="0" izz="0.00023304658143376906932" />
+        </inertial>
+    </link>
+
+     <!--GAZEBO MATERIAL-->
+    <gazebo reference="top_layer">
+        <material>Gazebo/Blue</material>
+    </gazebo>
+
+    <!--STANDOFFS-->
+    <!--STANDOFF 1-->
+    <xacro:standoff base_number="1" standoff_mass="${standoff_mass}">
+        <origin xyz="0.024643443059900252412 -0.023666161557318210473 -0.015733145442279120041" rpy="3.141592653589793116 -0 0" />
+        <parent link="base_layer"/>
+    </xacro:standoff>
+
+    <joint name="mid_joint_1" type="fixed">
+        <origin xyz="-3.4694469519536141888e-18 0 -0.052499999999999991118" rpy="3.141592653589793116 -0 0" />
+        <parent link="Standoff_1" />
+        <child link="mid_layer" />
+        <axis xyz="0 0 1"/>
+        <limit effort="1" velocity="20" />
+        <joint_properties friction="0.0"/>
+    </joint>
+
+    <joint name="top_joint_1" type="fixed">
+        <origin xyz="-3.4694469519536141888e-18 0 -0.10499999999999999611" rpy="3.141592653589793116 -0 0" />
+        <parent link="Standoff_1" />
+        <child link="top_layer" />
+        <axis xyz="0 0 1"/>
+        <limit effort="1" velocity="20" />
+        <joint_properties friction="0.0"/>
+    </joint>
+
+    <!--STANDOFF 2-->
+    <xacro:standoff base_number="2" standoff_mass="${standoff_mass}">
+        <origin xyz="-0.035460633340956310144 -0.023666161557318217412 -0.015733145442279120041" rpy="3.141592653589793116 -0 0" />
+        <parent link="base_layer"/>
+    </xacro:standoff>
+
+    <!--STANDOFF 3-->
+    <xacro:standoff base_number="3" standoff_mass="${standoff_mass}">
+        <origin xyz="0.024643443059900252412 0.036437914843538331267 -0.015733145442279120041" rpy="3.141592653589793116 -0 0" />
+        <parent link="base_layer"/>
+    </xacro:standoff>
+    
+    <!--STANDOFF 4-->
+    <xacro:standoff base_number="4" standoff_mass="${standoff_mass}">
+        <origin xyz="-0.035460633340956282389 0.036437914843538338205 -0.015733145442279120041" rpy="3.141592653589793116 -0 0" />
+        <parent link="base_layer"/>
+    </xacro:standoff>
+
+    <!--WHEELS-->
+    <!--LEFT_WHEELS-->
+    <xacro:wheel wheel_number="1" wheel_mass="${wheel_mass}" reflect="1">
+        <origin xyz="0.080330040283809592272 0.0063858766431100638661 -0.01323314544227911782" rpy="-0 1.570796326794896558 0"/>
+        <parent link="base_layer"/>
+    </xacro:wheel>
+
+    <!--RIGHT_WHEEL-->
+    <xacro:wheel wheel_number="2" wheel_mass="${wheel_mass}" reflect="-1">
+        <origin xyz="-0.091147230564865622249 0.0063858766431100638661 -0.01323314544227911782" rpy="-0 -1.570796326794896558 0"/>
+        <parent link="base_layer"/>
+    </xacro:wheel>
+
+    <!--CASTER WHEEL-->
+    <xacro:caster_wheel wheel_mass="${wheel_mass}">
+        <origin xyz="0.005405 0.03 -0.01323" rpy="0 0 0"/>
+        <parent link="base_layer"/>
+    </xacro:caster_wheel>
+
+
+</robot>

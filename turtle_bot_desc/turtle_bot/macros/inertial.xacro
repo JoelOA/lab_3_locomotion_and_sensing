@@ -1,0 +1,34 @@
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+        <xacro:macro name="wheel_inertial" params="mass *origin *inertia">
+            <inertial name="wheel_inertial">
+                    <xacro:insert_block name="origin"/>
+                    <mass value="${mass}"/>
+                    <xacro:insert_block name="inertia"/>
+            </inertial>
+        </xacro:macro>
+    
+        <xacro:macro name="standoff_inertial" params="mass *origin *inertia">
+                <inertial name="standoff_inertial">
+                        <xacro:insert_block name="origin"/>
+                        <mass value="${mass}"/>
+                        <xacro:insert_block name="inertia"/>
+                </inertial>
+        </xacro:macro>
+
+        <xacro:macro name="chassis_inertial" params="prefix *mass *origin *inertia">
+                <inertial name="${prefix}_inertial">
+                        <xacro:insert_block name="origin"/>
+                        <xacro:insert_block name="mass"/>
+                        <xacro:insert_block name="inertia"/>
+                </inertial>
+        </xacro:macro>
+
+        <xacro:macro name="lidar_inertial" params="prefix mass *origin *inertia">
+                <inertial name="${prefix}_inertial">
+                        <xacro:insert_block name="origin"/>
+                        <mass value="${mass}"/>
+                        <xacro:insert_block name="inertia"/>
+                </inertial>
+        </xacro:macro>
+</robot>
