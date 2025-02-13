@@ -20,6 +20,7 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
+            f"wall_follower_node = {package_name}.wall_follower:main",
         ],
     },
 )
